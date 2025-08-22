@@ -1,0 +1,44 @@
+name: Deploy Cerebra-MD
+
+on:
+  push:
+    branches: [ main ]
+  release:
+    types: [ published ]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+          
+      - name: Deploy infrastructure
+        run: |
+          echo "Infrastructure deployment would happen here"
+          echo "Az login and bicep deploy commands"
+          
+      - name: Deploy frontend
+        run: |
+          echo "Frontend deployment would happen here"
+          echo "Deploy to Azure App Service"
+          
+      - name: Deploy backend  
+        run: |
+          echo "Backend deployment would happen here"
+          echo "Build Docker image and deploy"
