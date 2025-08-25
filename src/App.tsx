@@ -10,6 +10,11 @@ import PayerPerformance from './pages/PayerPerformance';
 import RevenueIntegrity from './pages/RevenueIntegrity';
 import OperationalMetrics from './pages/OperationalMetrics';
 
+// New comprehensive analytics dashboards
+import { DenialAnalytics } from './pages/DenialAnalytics';
+import { PhysicianPerformance } from './pages/PhysicianPerformance';
+import { RevenueAnalytics } from './pages/RevenueAnalytics';
+
 function App() {
   return (
     <Routes>
@@ -24,6 +29,11 @@ function App() {
         <Route path="payer-performance" element={<PayerPerformance />} />
         <Route path="revenue-integrity" element={<RevenueIntegrity />} />
         <Route path="operational-metrics" element={<OperationalMetrics />} />
+        
+        {/* New comprehensive analytics dashboards */}
+        <Route path="denial-analytics" element={<DenialAnalytics />} />
+        <Route path="physician-performance" element={<PhysicianPerformance />} />
+        <Route path="revenue-analytics" element={<RevenueAnalytics />} />
       </Route>
     </Routes>
   );
