@@ -1,8 +1,45 @@
-# Cerebra-MD — Healthcare Revenue Cycle Analytics Platform
+# 🏥 Cerebra-MD Healthcare Analytics Platform
 
-🧠 **Vision**: AI-powered healthcare analytics platform providing comprehensive insights into revenue cycle management, physician performance, and predictive financial modeling for hospital operations.
+## Executive Overview
 
-**Primary Focus**: Transform raw healthcare data into actionable insights for denial management, AR optimization, physician productivity tracking, and predictive revenue forecasting.
+Cerebra-MD is an AI-powered revenue cycle analytics platform that transforms your $88M healthcare organization's financial performance through real-time insights and predictive intelligence.
+
+**For Leadership**: See [Executive Overview](02-Architecture/02-Budget-Planning/00-EXECUTIVE-OVERVIEW.md)  
+**For Complete Benefits**: See [Benefits Analysis](02-Architecture/02-Budget-Planning/03-COMPLETE-BENEFITS-ANALYSIS.md)
+
+---
+
+## 📈 Key Benefits
+
+- **69,760% ROI** - $15.84M annual return on $22,690 investment
+- **224 hours/month saved** - Eliminate manual reporting and data collection  
+- **Issue detection**: From 10 days to 15 minutes
+- **Real-time visibility** into entire $88M revenue cycle
+
+---
+
+## 💰 Investment Summary
+
+| Cost Item | Amount | Purpose |
+|-----------|--------|---------|
+| AdvancedMD API Setup | $2,500 one-time | Data access |
+| AdvancedMD Monthly | $182.50/month | API license |
+| Azure Cloud | $1,500/month | Hosting |
+| **Year 1 Total** | **$22,690** | Complete solution |
+
+---
+
+## 📂 Project Structure
+
+### For Leadership (Non-Technical)
+- `02-Architecture/02-Budget-Planning/` - All cost and benefit information
+- `01-Documentation/01-Business-Case/` - Why we need this, ROI analysis
+
+### For Technical Team
+- `03-Frontend-Application/` - React user interface
+- `04-Backend-API-Server/` - Python/FastAPI server  
+- `05-Data-Pipeline/` - ETL and data processing
+- `06-Infrastructure/` - Azure cloud setup
 
 ## 🎯 Core Analytics Dashboard Focus Areas
 
