@@ -11,7 +11,7 @@ import json
 
 from sqlalchemy import (
     Column, String, Integer, DateTime, Date, Time, Boolean, 
-    Decimal as SQLDecimal, Text, JSON, ForeignKey,
+    DECIMAL as SQLDecimal, Text, JSON, ForeignKey,
     Index, UniqueConstraint, CheckConstraint, func
 )
 from sqlalchemy.dialects.mssql import UNIQUEIDENTIFIER, ROWVERSION
@@ -71,8 +71,7 @@ class Patient(Base):
     EmergencyContactRelationship = Column(String(50))
     
     # System Fields
-    Status = Column(String(20), default='ACTIVE', 
-                   CheckConstraint("Status IN ('ACTIVE', 'INACTIVE', 'DECEASED', 'MERGED')"))
+    Status = Column(String(20), CheckConstraint("Status IN ('ACTIVE', 'INACTIVE', 'DECEASED', 'MERGED')"), default='ACTIVE')
     CreatedDate = Column(DateTime, default=func.getutcdate(), nullable=False)
     CreatedBy = Column(String(50), default=func.system_user(), nullable=False)
     ModifiedDate = Column(DateTime, default=func.getutcdate(), onupdate=func.getutcdate())
@@ -133,8 +132,7 @@ class PatientAuditTrail(Base):
     
     AuditID = Column(UNIQUEIDENTIFIER, primary_key=True, default=uuid4)
     PatientID = Column(UNIQUEIDENTIFIER, ForeignKey('Patients.PatientID'), nullable=False)
-    Operation = Column(String(10), nullable=False, 
-                      CheckConstraint("Operation IN ('INSERT', 'UPDATE', 'DELETE')"))
+    Operation = Column(String(10), CheckConstraint("Operation IN ('INSERT', 'UPDATE', 'DELETE')"), nullable=False)
     FieldName = Column(String(50), nullable=False)
     OldValue = Column(Text)
     NewValue = Column(Text)
@@ -166,8 +164,7 @@ class Facility(Base):
     FacilityID = Column(UNIQUEIDENTIFIER, primary_key=True, default=uuid4)
     FacilityCode = Column(String(10), unique=True, nullable=False)
     FacilityName = Column(String(100), nullable=False, index=True)
-    FacilityType = Column(String(30), nullable=False,
-                         CheckConstraint("FacilityType IN ('HOSPITAL', 'CLINIC', 'ASC', 'OFFICE', 'URGENT_CARE', 'IMAGING_CENTER', 'LAB')"))
+    FacilityType = Column(String(30), CheckConstraint("FacilityType IN ('HOSPITAL', 'CLINIC', 'ASC', 'OFFICE', 'URGENT_CARE', 'IMAGING_CENTER', 'LAB')"), nullable=False)
     NPI = Column(String(10), unique=True, nullable=False)
     TaxID = Column(String(12), nullable=False)
     
@@ -273,10 +270,8 @@ class Provider(Base):
     PrimaryFacilityID = Column(UNIQUEIDENTIFIER, ForeignKey('Facilities.FacilityID'), nullable=False)
     HireDate = Column(Date, nullable=False)
     TerminationDate = Column(Date)
-    EmploymentType = Column(String(20), default='EMPLOYEE',
-                           CheckConstraint("EmploymentType IN ('EMPLOYEE', 'CONTRACTOR', 'LOCUM', 'VOLUNTEER')"))
-    EmploymentStatus = Column(String(20), default='ACTIVE',
-                             CheckConstraint("EmploymentStatus IN ('ACTIVE', 'INACTIVE', 'TERMINATED', 'SUSPENDED', 'ON_LEAVE')"))
+    EmploymentType = Column(String(20), CheckConstraint("EmploymentType IN ('EMPLOYEE', 'CONTRACTOR', 'LOCUM', 'VOLUNTEER')"), default='EMPLOYEE')
+    EmploymentStatus = Column(String(20), CheckConstraint("EmploymentStatus IN ('ACTIVE', 'INACTIVE', 'TERMINATED', 'SUSPENDED', 'ON_LEAVE')"), default='ACTIVE')
     
     # Financial Information
     HourlyRate = Column(SQLDecimal(10, 2))
@@ -345,8 +340,7 @@ class InsuranceCompany(Base):
     PayerID = Column(UNIQUEIDENTIFIER, primary_key=True, default=uuid4)
     PayerCode = Column(String(20), unique=True, nullable=False)
     PayerName = Column(String(100), nullable=False, index=True)
-    PayerType = Column(String(20), nullable=False,
-                      CheckConstraint("PayerType IN ('COMMERCIAL', 'MEDICARE', 'MEDICAID', 'TRICARE', 'WORKERS_COMP', 'SELF_PAY', 'OTHER')"))
+    PayerType = Column(String(20), CheckConstraint("PayerType IN ('COMMERCIAL', 'MEDICARE', 'MEDICAID', 'TRICARE', 'WORKERS_COMP', 'SELF_PAY', 'OTHER')"), nullable=False)
     
     # Contact Information
     BillingAddress = Column(String(200))
@@ -362,8 +356,7 @@ class InsuranceCompany(Base):
     
     # Financial Information
     AverageDaysToPayment = Column(Integer)
-    PaymentMethod = Column(String(20), default='EFT',
-                          CheckConstraint("PaymentMethod IN ('EFT', 'CHECK', 'ACH', 'WIRE')"))
+    PaymentMethod = Column(String(20), CheckConstraint("PaymentMethod IN ('EFT', 'CHECK', 'ACH', 'WIRE')"), default='EFT')
     
     # Performance Metrics
     DenialRate = Column(SQLDecimal(5, 4))
@@ -403,8 +396,7 @@ class InsurancePlan(Base):
     PolicyNumber = Column(String(50), nullable=False)
     GroupNumber = Column(String(50))
     PlanName = Column(String(100), nullable=False)
-    PlanType = Column(String(20), nullable=False,
-                     CheckConstraint("PlanType IN ('HMO', 'PPO', 'EPO', 'POS', 'HDHP', 'INDEMNITY', 'MEDICARE_ADVANTAGE', 'MEDIGAP')"))
+    PlanType = Column(String(20), CheckConstraint("PlanType IN ('HMO', 'PPO', 'EPO', 'POS', 'HDHP', 'INDEMNITY', 'MEDICARE_ADVANTAGE', 'MEDIGAP')"), nullable=False)
     
     # Coverage Information
     EffectiveDate = Column(Date, nullable=False)
@@ -421,8 +413,7 @@ class InsurancePlan(Base):
     
     # Eligibility Information
     LastEligibilityCheck = Column(DateTime)
-    EligibilityStatus = Column(String(20), default='ACTIVE',
-                              CheckConstraint("EligibilityStatus IN ('ACTIVE', 'INACTIVE', 'PENDING', 'EXPIRED')"))
+    EligibilityStatus = Column(String(20), CheckConstraint("EligibilityStatus IN ('ACTIVE', 'INACTIVE', 'PENDING', 'EXPIRED')"), default='ACTIVE')
     
     # System Fields
     IsActive = Column(Boolean, default=True)
@@ -476,12 +467,10 @@ class Encounter(Base):
     # Encounter Details
     EncounterDate = Column(Date, nullable=False, index=True)
     EncounterTime = Column(Time, nullable=False)
-    EncounterType = Column(String(20), nullable=False,
-                          CheckConstraint("EncounterType IN ('OFFICE', 'INPATIENT', 'OUTPATIENT', 'EMERGENCY', 'URGENT', 'TELEHEALTH', 'SURGERY', 'PROCEDURE')"))
+    EncounterType = Column(String(20), CheckConstraint("EncounterType IN ('OFFICE', 'INPATIENT', 'OUTPATIENT', 'EMERGENCY', 'URGENT', 'TELEHEALTH', 'SURGERY', 'PROCEDURE')"), nullable=False)
     
     # Visit Classification
-    VisitType = Column(String(30), nullable=False,
-                      CheckConstraint("VisitType IN ('NEW_PATIENT', 'ESTABLISHED_PATIENT', 'CONSULTATION', 'FOLLOW_UP', 'EMERGENCY', 'ANNUAL_PHYSICAL')"))
+    VisitType = Column(String(30), CheckConstraint("VisitType IN ('NEW_PATIENT', 'ESTABLISHED_PATIENT', 'CONSULTATION', 'FOLLOW_UP', 'EMERGENCY', 'ANNUAL_PHYSICAL')"), nullable=False)
     AppointmentType = Column(String(30))
     
     # Clinical Information
@@ -501,8 +490,7 @@ class Encounter(Base):
     CheckOutTime = Column(DateTime)
     
     # Status Tracking
-    EncounterStatus = Column(String(20), default='SCHEDULED',
-                            CheckConstraint("EncounterStatus IN ('SCHEDULED', 'CHECKED_IN', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED', 'NO_SHOW', 'RESCHEDULED')"))
+    EncounterStatus = Column(String(20), CheckConstraint("EncounterStatus IN ('SCHEDULED', 'CHECKED_IN', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED', 'NO_SHOW', 'RESCHEDULED')"), default='SCHEDULED')
     CompletionDate = Column(DateTime)
     
     # Financial Information
@@ -576,8 +564,7 @@ class Diagnosis(Base):
     # Diagnosis Information
     DiagnosisCode = Column(String(10), nullable=False, index=True)
     DiagnosisDescription = Column(String(200), nullable=False)
-    DiagnosisType = Column(String(20), nullable=False,
-                          CheckConstraint("DiagnosisType IN ('PRIMARY', 'SECONDARY', 'ADMITTING', 'DISCHARGE', 'RULE_OUT', 'DIFFERENTIAL')"))
+    DiagnosisType = Column(String(20), CheckConstraint("DiagnosisType IN ('PRIMARY', 'SECONDARY', 'ADMITTING', 'DISCHARGE', 'RULE_OUT', 'DIFFERENTIAL')"), nullable=False)
     DiagnosisOrder = Column(Integer, nullable=False, default=1)
     
     # ICD Information
@@ -666,8 +653,7 @@ class Procedure(Base):
     ComplianceScore = Column(SQLDecimal(5, 4))
     
     # Status Information
-    ProcedureStatus = Column(String(20), default='COMPLETED',
-                            CheckConstraint("ProcedureStatus IN ('SCHEDULED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED', 'POSTPONED')"))
+    ProcedureStatus = Column(String(20), CheckConstraint("ProcedureStatus IN ('SCHEDULED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED', 'POSTPONED')"), default='COMPLETED')
     
     # System Fields
     CreatedDate = Column(DateTime, default=func.getutcdate())

@@ -10,8 +10,8 @@ from uuid import UUID, uuid4
 
 from sqlalchemy import (
     Column, String, Integer, DateTime, Date, Boolean, 
-    Decimal as SQLDecimal, Text, ForeignKey,
-    Index, CheckConstraint, func
+    DECIMAL as SQLDecimal, Text, ForeignKey,
+    Index, UniqueConstraint, CheckConstraint, func
 )
 from sqlalchemy.dialects.mssql import UNIQUEIDENTIFIER
 from sqlalchemy.orm import relationship, validates
@@ -39,10 +39,8 @@ class Claim(Base):
     
     # Claim Identification
     OriginalClaimNumber = Column(String(30))  # For resubmissions
-    ClaimType = Column(String(20), nullable=False,
-                      CheckConstraint("ClaimType IN ('ORIGINAL', 'CORRECTED', 'VOID', 'REPLACEMENT', 'REVERSAL')"))
-    ClaimForm = Column(String(10), default='CMS1500',
-                      CheckConstraint("ClaimForm IN ('CMS1500', 'UB04', 'ADA')"))
+    ClaimType = Column(String(20), CheckConstraint("ClaimType IN ('ORIGINAL', 'CORRECTED', 'VOID', 'REPLACEMENT', 'REVERSAL')"), nullable=False)
+    ClaimForm = Column(String(10), CheckConstraint("ClaimForm IN ('CMS1500', 'UB04', 'ADA')"), default='CMS1500')
     
     # Service Period
     ServiceDateFrom = Column(Date, nullable=False)
@@ -66,8 +64,7 @@ class Claim(Base):
     WriteOffAmount = Column(SQLDecimal(12, 2), default=0)
     
     # Status Information
-    ClaimStatus = Column(String(20), nullable=False, default='SUBMITTED', index=True,
-                        CheckConstraint("ClaimStatus IN ('DRAFT', 'SUBMITTED', 'PENDING', 'PROCESSED', 'PAID', 'DENIED', 'PARTIAL', 'APPEALED', 'CLOSED')"))
+    ClaimStatus = Column(String(20), CheckConstraint("ClaimStatus IN ('DRAFT', 'SUBMITTED', 'PENDING', 'PROCESSED', 'PAID', 'DENIED', 'PARTIAL', 'APPEALED', 'CLOSED')"), nullable=False, default='SUBMITTED', index=True)
     ClaimStatusDate = Column(DateTime, default=func.getutcdate())
     
     # Processing Information
@@ -191,8 +188,7 @@ class ClaimLineItem(Base):
     AdjustmentAmount = Column(SQLDecimal(10, 2), default=0)
     
     # Line Item Status
-    LineStatus = Column(String(20), default='SUBMITTED',
-                       CheckConstraint("LineStatus IN ('SUBMITTED', 'PROCESSED', 'PAID', 'DENIED', 'ADJUSTED')"))
+    LineStatus = Column(String(20), CheckConstraint("LineStatus IN ('SUBMITTED', 'PROCESSED', 'PAID', 'DENIED', 'ADJUSTED')"), default='SUBMITTED')
     
     # Reason Codes
     ReasonCode1 = Column(String(5))
@@ -248,10 +244,8 @@ class Denial(Base):
     SecondaryReasonDescription = Column(String(500))
     
     # Denial Classification
-    DenialCategory = Column(String(30), nullable=False, index=True,
-                           CheckConstraint("DenialCategory IN ('AUTHORIZATION', 'ELIGIBILITY', 'CODING', 'DOCUMENTATION', 'TIMELY_FILING', 'DUPLICATE', 'NON_COVERED_SERVICE', 'MEDICAL_NECESSITY', 'BUNDLING', 'MODIFIER', 'OTHER')"))
-    DenialType = Column(String(20), nullable=False,
-                       CheckConstraint("DenialType IN ('HARD_DENIAL', 'SOFT_DENIAL', 'INFORMATION_REQUEST', 'TECHNICAL_DENIAL')"))
+    DenialCategory = Column(String(30), CheckConstraint("DenialCategory IN ('AUTHORIZATION', 'ELIGIBILITY', 'CODING', 'DOCUMENTATION', 'TIMELY_FILING', 'DUPLICATE', 'NON_COVERED_SERVICE', 'MEDICAL_NECESSITY', 'BUNDLING', 'MODIFIER', 'OTHER')"), nullable=False, index=True)
+    DenialType = Column(String(20), CheckConstraint("DenialType IN ('HARD_DENIAL', 'SOFT_DENIAL', 'INFORMATION_REQUEST', 'TECHNICAL_DENIAL')"), nullable=False)
     
     # Financial Impact
     DeniedAmount = Column(SQLDecimal(12, 2), nullable=False)
@@ -259,33 +253,28 @@ class Denial(Base):
     WriteOffAmount = Column(SQLDecimal(12, 2), default=0)
     
     # Root Cause Analysis
-    RootCause = Column(String(50),
-                      CheckConstraint("RootCause IN ('PROVIDER_ERROR', 'BILLING_ERROR', 'AUTHORIZATION_ISSUE', 'ELIGIBILITY_ISSUE', 'PAYER_ERROR', 'SYSTEM_ERROR', 'PATIENT_ISSUE')"))
+    RootCause = Column(String(50), CheckConstraint("RootCause IN ('PROVIDER_ERROR', 'BILLING_ERROR', 'AUTHORIZATION_ISSUE', 'ELIGIBILITY_ISSUE', 'PAYER_ERROR', 'SYSTEM_ERROR', 'PATIENT_ISSUE')"))
     IsPreventable = Column(Boolean)
     PreventionStrategy = Column(String(500))
     
     # Assignment and Workflow
-    DenialStatus = Column(String(20), default='OPEN', index=True,
-                         CheckConstraint("DenialStatus IN ('OPEN', 'IN_PROGRESS', 'APPEALED', 'RESOLVED', 'WRITTEN_OFF', 'CLOSED')"))
+    DenialStatus = Column(String(20), CheckConstraint("DenialStatus IN ('OPEN', 'IN_PROGRESS', 'APPEALED', 'RESOLVED', 'WRITTEN_OFF', 'CLOSED')"), default='OPEN', index=True)
     AssignedTo = Column(String(50), index=True)
     AssignedDate = Column(DateTime)
     DueDate = Column(Date)
-    Priority = Column(String(10), default='NORMAL',
-                     CheckConstraint("Priority IN ('LOW', 'NORMAL', 'HIGH', 'URGENT')"))
+    Priority = Column(String(10), CheckConstraint("Priority IN ('LOW', 'NORMAL', 'HIGH', 'URGENT')"), default='NORMAL')
     
     # Resolution Tracking
     ResolutionDate = Column(Date)
     ResolutionAmount = Column(SQLDecimal(12, 2))
-    ResolutionType = Column(String(30),
-                           CheckConstraint("ResolutionType IN ('CORRECTED_RESUBMISSION', 'SUCCESSFUL_APPEAL', 'PARTIAL_PAYMENT', 'WRITE_OFF', 'PATIENT_PAYMENT', 'SECONDARY_INSURANCE')"))
+    ResolutionType = Column(String(30), CheckConstraint("ResolutionType IN ('CORRECTED_RESUBMISSION', 'SUCCESSFUL_APPEAL', 'PARTIAL_PAYMENT', 'WRITE_OFF', 'PATIENT_PAYMENT', 'SECONDARY_INSURANCE')"))
     ResolutionNotes = Column(String(1000))
     
     # Appeal Information
     AppealDate = Column(Date)
     AppealLevel = Column(Integer, default=1)
     AppealNumber = Column(String(30))
-    AppealStatus = Column(String(20),
-                         CheckConstraint("AppealStatus IN ('SUBMITTED', 'PENDING', 'APPROVED', 'DENIED', 'PARTIAL', 'WITHDRAWN')"))
+    AppealStatus = Column(String(20), CheckConstraint("AppealStatus IN ('SUBMITTED', 'PENDING', 'APPROVED', 'DENIED', 'PARTIAL', 'WITHDRAWN')"))
     AppealAmount = Column(SQLDecimal(12, 2))
     AppealDeadline = Column(Date)
     
@@ -314,7 +303,7 @@ class Denial(Base):
         Index('IX_Denials_Category', 'DenialCategory', 'DenialDate'),
         Index('IX_Denials_Assigned', 'AssignedTo', 'DenialStatus', 
               postgresql_where=AssignedTo.isnot(None)),
-        Index('IX_Denials_Outstanding', 'DenialStatus', 'DaysOutstanding',
+        Index('IX_Denials_Outstanding', 'DenialStatus', 'DenialDate',
               postgresql_where=DenialStatus.in_(['OPEN', 'IN_PROGRESS'])),
         Index('IX_Denials_Amount', 'DeniedAmount'),
         Index('IX_Denials_Priority', 'Priority', 'DueDate',
@@ -365,8 +354,7 @@ class DenialAction(Base):
     DenialID = Column(UNIQUEIDENTIFIER, ForeignKey('Denials.DenialID'), nullable=False)
     
     # Action Information
-    ActionType = Column(String(30), nullable=False,
-                       CheckConstraint("ActionType IN ('ASSIGNED', 'STATUS_CHANGE', 'APPEAL_SUBMITTED', 'DOCUMENTATION_REQUESTED', 'CORRECTED_CLAIM', 'FOLLOW_UP_CALL', 'WRITTEN_OFF', 'RESOLVED', 'NOTE_ADDED')"))
+    ActionType = Column(String(30), CheckConstraint("ActionType IN ('ASSIGNED', 'STATUS_CHANGE', 'APPEAL_SUBMITTED', 'DOCUMENTATION_REQUESTED', 'CORRECTED_CLAIM', 'FOLLOW_UP_CALL', 'WRITTEN_OFF', 'RESOLVED', 'NOTE_ADDED')"), nullable=False)
     ActionDescription = Column(String(1000), nullable=False)
     ActionDate = Column(DateTime, default=func.getutcdate(), index=True)
     
@@ -422,10 +410,8 @@ class Payment(Base):
     # Payment Information
     PaymentDate = Column(Date, nullable=False, index=True)
     PaymentAmount = Column(SQLDecimal(12, 2), nullable=False)
-    PaymentType = Column(String(20), nullable=False,
-                        CheckConstraint("PaymentType IN ('INSURANCE', 'PATIENT', 'SECONDARY_INSURANCE', 'TERTIARY_INSURANCE', 'REFUND', 'ADJUSTMENT')"))
-    PaymentMethod = Column(String(20), nullable=False,
-                          CheckConstraint("PaymentMethod IN ('EFT', 'CHECK', 'CASH', 'CREDIT_CARD', 'DEBIT_CARD', 'MONEY_ORDER', 'WIRE')"))
+    PaymentType = Column(String(20), CheckConstraint("PaymentType IN ('INSURANCE', 'PATIENT', 'SECONDARY_INSURANCE', 'TERTIARY_INSURANCE', 'REFUND', 'ADJUSTMENT')"), nullable=False)
+    PaymentMethod = Column(String(20), CheckConstraint("PaymentMethod IN ('EFT', 'CHECK', 'CASH', 'CREDIT_CARD', 'DEBIT_CARD', 'MONEY_ORDER', 'WIRE')"), nullable=False)
     
     # Remittance Information
     RemittanceNumber = Column(String(30))
@@ -441,8 +427,7 @@ class Payment(Base):
     
     # Adjustment Information
     AdjustmentAmount = Column(SQLDecimal(12, 2), default=0)
-    AdjustmentType = Column(String(20),
-                           CheckConstraint("AdjustmentType IN ('CONTRACTUAL', 'WRITE_OFF', 'CORRECTION', 'REFUND', 'DISCOUNT')"))
+    AdjustmentType = Column(String(20), CheckConstraint("AdjustmentType IN ('CONTRACTUAL', 'WRITE_OFF', 'CORRECTION', 'REFUND', 'DISCOUNT')"))
     AdjustmentReason = Column(String(200))
     
     # Processing Information
@@ -528,8 +513,7 @@ class PaymentLineItem(Base):
     RemarkCode = Column(String(5))
     
     # Line Status
-    PaymentStatus = Column(String(20), default='POSTED',
-                          CheckConstraint("PaymentStatus IN ('PENDING', 'POSTED', 'REVERSED', 'ADJUSTED')"))
+    PaymentStatus = Column(String(20), CheckConstraint("PaymentStatus IN ('PENDING', 'POSTED', 'REVERSED', 'ADJUSTED')"), default='POSTED')
     
     # System Fields
     CreatedDate = Column(DateTime, default=func.getutcdate())
@@ -607,7 +591,6 @@ class CPTCode(Base):
         Index('IX_CPTCodes_Category', 'Category'),
         Index('IX_CPTCodes_Section', 'Section'),
         Index('IX_CPTCodes_Active', 'IsActive', postgresql_where=IsActive == True),
-        Index('IX_CPTCodes_RVU', 'total_rvu_non_facility'),
     )
     
     def __repr__(self):
