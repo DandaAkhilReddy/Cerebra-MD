@@ -14,6 +14,7 @@ import OperationalMetrics from './pages/OperationalMetrics';
 import { DenialAnalytics } from './pages/DenialAnalytics';
 import { PhysicianPerformance } from './pages/PhysicianPerformance';
 import { RevenueAnalytics } from './pages/RevenueAnalytics';
+import FinancialARDashboard from './pages/FinancialARDashboard';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="operational-metrics" element={<OperationalMetrics />} />
         
         {/* New comprehensive analytics dashboards */}
+        <Route path="financial-ar" element={<FinancialARDashboard />} />
         <Route path="denial-analytics" element={<DenialAnalytics />} />
         <Route path="physician-performance" element={<PhysicianPerformance />} />
         <Route path="revenue-analytics" element={<RevenueAnalytics />} />

@@ -33,12 +33,14 @@ import {
   AccountCircle,
   Logout,
   ChevronLeft,
+  AttachMoney,
 } from '@mui/icons-material';
 
 const drawerWidth = 280;
 
 const menuItems = [
   { title: 'Dashboard', path: '/dashboard', icon: <DashboardIcon /> },
+  { title: 'Financial AR', path: '/financial-ar', icon: <AttachMoney /> },
   { title: 'A/R Management', path: '/ar-management', icon: <ARIcon /> },
   { title: 'Denial Management', path: '/denial-management', icon: <DenialIcon /> },
   { title: 'Charge Capture', path: '/charge-capture', icon: <ChargeIcon /> },
