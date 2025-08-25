@@ -17,22 +17,22 @@
 
 ## 💰 Financial Summary
 
-### Investment Required (1 User Setup)
+### Investment Required
 | Type | Amount | Frequency |
 |------|--------|-----------|
-| **AdvancedMD API Setup** | $2,500 | One-time |
-| **Azure Cloud Services** | $1,500 | Monthly |
-| **AdvancedMD API License** | $182.50 | Monthly |
-| **Total Year 1** | $22,690 | - |
-| **Ongoing (Year 2+)** | $20,190 | Annual |
+| **Implementation** | $50,000 | One-time |
+| **Azure Cloud** | $1,500 | Monthly |
+| **AdvancedMD API** | $2,000 setup + $141 | One-time + Monthly |
+| **Total Year 1** | $71,700 | - |
+| **Ongoing (Year 2+)** | $20,000 | Annual |
 
 ### Expected Returns
 | Metric | Value | Impact |
 |--------|-------|--------|
-| **Manual Labor Savings** | Eliminates $95,700/year | 160 hours/month automated |
-| **Billing Company Elimination** | Saves $33,810/year | Direct API access |
-| **Denial Reduction** | 3% improvement | $1.5M/year |
-| **Total Annual Benefit** | $1.66M+ | 73x investment |
+| **Denial Reduction** | 4% improvement | $2M/year |
+| **Days in AR** | 10-day reduction | $250K cash flow |
+| **FTE Savings** | 2 positions | $150K/year |
+| **Total Annual Benefit** | $2.4M | 33x investment |
 
 ---
 
