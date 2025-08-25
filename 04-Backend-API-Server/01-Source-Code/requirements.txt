@@ -1,0 +1,40 @@
+# FastAPI and Core Dependencies
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# Database and Data Processing
+sqlalchemy==2.0.23
+pandas==2.1.4
+databricks-sql-connector==3.0.2
+
+# Azure Integration
+azure-identity==1.15.0
+azure-keyvault-secrets==4.7.0
+azure-storage-blob==12.19.0
+
+# Authentication and Security  
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+cryptography==41.0.8
+
+# HTTP and API
+httpx==0.25.2
+requests==2.31.0
+
+# Validation and Serialization
+marshmallow==3.20.2
+
+# Monitoring and Logging
+structlog==23.2.0
+
+# Testing
+pytest==7.4.3
+pytest-asyncio==0.21.1
+
+# Development
+black==23.11.0
+isort==5.12.0
+flake8==6.1.0
