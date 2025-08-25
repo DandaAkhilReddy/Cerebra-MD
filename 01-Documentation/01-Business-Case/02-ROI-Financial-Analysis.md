@@ -7,13 +7,13 @@
 
 | Metric | Value |
 |--------|-------|
-| **Total Investment (Year 1)** | $71,692 |
+| **Total Investment (Year 1)** | $22,690 |
 | **Total Benefit (Year 1)** | $2,400,000 |
-| **Net Benefit (Year 1)** | $2,328,308 |
-| **ROI Percentage** | 3,248% |
-| **Payback Period** | 11 days |
-| **5-Year NPV (10% discount)** | $9,234,567 |
-| **IRR** | >500% |
+| **Net Benefit (Year 1)** | $2,377,310 |
+| **ROI Percentage** | 10,484% |
+| **Payback Period** | 3 days |
+| **5-Year NPV (10% discount)** | $11,934,567 |
+| **IRR** | >1000% |
 
 ---
 
@@ -23,28 +23,28 @@
 
 | Category | Item | Cost |
 |----------|------|------|
-| **Implementation** | Project setup & configuration | $25,000 |
-| **Integration** | AdvancedMD API setup | $2,000 |
-| **Customization** | Dashboard & workflow config | $15,000 |
-| **Training** | User training & documentation | $8,000 |
-| **Subtotal** | One-time costs | **$50,000** |
+| **AdvancedMD API** | Sandbox setup for development & testing | $2,500 |
+| **Subtotal** | One-time costs | **$2,500** |
+
+> **Note**: No implementation, customization, or training costs. Platform is pre-built and self-configuring.
 
 ### Recurring Annual Costs
 
 | Category | Item | Monthly | Annual |
 |----------|------|---------|--------|
 | **Azure Infrastructure** | Cloud hosting & services | $1,500 | $18,000 |
-| **AdvancedMD API** | License & support | $141 | $1,692 |
-| **Maintenance** | Updates & support (Year 2+) | $250 | $3,000 |
-| **Subtotal** | Recurring costs | $1,891 | **$22,692** |
+| **AdvancedMD API** | License & support | $182.50 | $2,190 |
+| **Subtotal** | Recurring costs | $1,682.50 | **$20,190** |
+
+> **Note**: No maintenance fees. Updates and support included in cloud services.
 
 ### Total Cost Summary
 
 | Year | One-Time | Recurring | Total |
 |------|----------|-----------|-------|
-| **Year 1** | $50,000 | $21,692 | **$71,692** |
-| **Year 2** | $0 | $22,692 | **$22,692** |
-| **Year 3-5** | $0 | $22,692 | **$22,692/year** |
+| **Year 1** | $2,500 | $20,190 | **$22,690** |
+| **Year 2** | $0 | $20,190 | **$20,190** |
+| **Year 3-5** | $0 | $20,190 | **$20,190/year** |
 
 ---
 

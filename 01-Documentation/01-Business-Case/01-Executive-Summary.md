@@ -18,9 +18,9 @@ Healthcare organizations typically lose **15-30% of potential revenue** due to i
 ## Financial Impact
 
 ### Investment Required
-- **One-time Implementation**: $50,000
-- **Annual Operating Cost**: $20,000
-- **Total First Year**: $70,000
+- **AdvancedMD API Setup**: $2,500 (one-time sandbox)
+- **Monthly Operating Costs**: $1,682.50 ($182.50 AdvancedMD + $1,500 Azure)
+- **Total First Year**: $22,690
 
 ### Expected Returns (Conservative)
 - **Denial Reduction** (4% improvement): $2,000,000/year
@@ -29,9 +29,9 @@ Healthcare organizations typically lose **15-30% of potential revenue** due to i
 - **Total Annual Benefit**: $2,400,000
 
 ### Return on Investment
-- **ROI**: 3,248% 
-- **Payback Period**: 11 days
-- **5-Year NPV**: $9.2M
+- **ROI**: 10,484% (($2,400,000 - $22,690) ÷ $22,690)
+- **Payback Period**: 3 days
+- **5-Year NPV**: $11.9M
 
 ---
 
